@@ -16,7 +16,6 @@ Official implementation of **SDC-Net**, a novel unsupervised domain adaptation f
 ✅ Confidence-guided pseudo-label learning  
 ✅ Dual-domain similarity consistency modeling  
 ✅ Strong robustness against **negative transfer**  
-✅ State-of-the-art performance on multiple EEG benchmarks  
 
 ---
 
