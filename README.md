@@ -37,5 +37,5 @@ After preparing the dataset and installing dependencies, you can launch the trai
 
 ```bash
 python main_5.py
-
+```
 If you encounter any issues when running the code, please feel free to open an issue.
