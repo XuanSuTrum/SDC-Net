@@ -29,3 +29,13 @@ Official implementation of **SDC-Net**, a novel unsupervised domain adaptation f
 
 📌 **Paper:** *(https://arxiv.org/abs/2507.17524)*  
 
+---
+
+## 🚀 Quick Start
+
+After preparing the dataset and installing dependencies, you can launch the training process with a single command:
+
+```bash
+python main_5.py
+
+If you encounter any issues when running the code, please feel free to open an issue.
