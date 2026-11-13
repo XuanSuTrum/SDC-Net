@@ -210,6 +210,13 @@ def train_fixed(model, source_loader, target_loader, exp, rel, device, folder, v
                     "weighted_target_similarity_sensitivity_l1": target_weight * sensitivity_t,
                     "parameter_gradient_norm": math.sqrt(squared_norm),
                 }
+                # Weight each batch before averaging: source weights depend on CE.
+                values.update({
+                    "weighted_cmmd": cmmd_weight * values["cmmd"],
+                    "weighted_relation_source": source_weight * values["relation_source"],
+                    "weighted_relation_target": target_weight * values["relation_target"],
+                    "weighted_source_similarity_sensitivity_l1": source_weight * sensitivity_s,
+                })
                 values.update(stats)
                 for key, value in values.items():
                     if not math.isfinite(value):
