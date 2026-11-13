@@ -403,6 +403,7 @@ def main(argv=None):
     parser.add_argument("--epochs", type=int)
     parser.add_argument("--batch-size", type=int)
     parser.add_argument("--device")
+    parser.add_argument("--output-dir", help="Optional output directory; relative paths use the project root.")
     args = parser.parse_args(argv)
     config_path = Path(args.config).expanduser()
     if not config_path.is_absolute():
@@ -412,7 +413,7 @@ def main(argv=None):
     if args.data_root:
         config["data"]["data_root"] = args.data_root
     exp = config["experiment"]
-    for key in ("variants", "subjects", "seeds", "epochs", "batch_size", "device"):
+    for key in ("variants", "subjects", "seeds", "epochs", "batch_size", "device", "output_dir"):
         value = getattr(args, key)
         if value is not None:
             exp[key] = value
