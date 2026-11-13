@@ -39,3 +39,8 @@ After preparing the dataset and installing dependencies, you can launch the trai
 python main_5.py
 ```
 If you encounter any issues when running the code, please feel free to open an issue.
+
+
+## ANML pilot branch
+
+This branch adds a controlled A/B/C exploratory experiment. Start with `run_anml_pycharm.py` (data audit first), then follow [the Chinese PyCharm guide](docs/ANML_PILOT.md). A disables relation learning, B uses a repaired DSCL baseline, and C uses an independent DANML equation (22) adaptation. No training results are claimed; the experimental baseline includes documented common fixes and is not a numerical reproduction of the original paper.

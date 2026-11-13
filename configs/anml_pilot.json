@@ -1,0 +1,57 @@
+{
+  "data": {
+    "data_root": "F:/Emotion_datasets/SEED/feature_for_net_session1_LDS_de",
+    "data_format": "processed",
+    "session": 1,
+    "num_classes": 3,
+    "expected_features": 310,
+    "expected_subjects": 15,
+    "label_encoding": "auto",
+    "normalization": "minmax",
+    "trial_metadata": null,
+    "label_file": null,
+    "label_key": "label"
+  },
+  "experiment": {
+    "variants": [
+      "B"
+    ],
+    "subjects": [
+      "1"
+    ],
+    "seeds": [
+      0
+    ],
+    "epochs": 200,
+    "batch_size": 32,
+    "lr": 0.001,
+    "device": "auto",
+    "output_dir": "outputs/anml_pilot",
+    "ss_mix": false,
+    "mixup_alpha": 0.5,
+    "log_every_batches": 50,
+    "diagnostic_samples": 256
+  },
+  "relation": {
+    "upper_threshold": 0.9,
+    "lower_threshold": 0.5,
+    "pair_threshold": 0.9,
+    "gamma_pos": -2,
+    "gamma_neg": 20,
+    "radius_pos": 0.3,
+    "radius_neg": 0.5,
+    "margin": 0.5,
+    "eps": 0.000001,
+    "source_scale": 1,
+    "target_scale": 1
+  },
+  "protocol": {
+    "stage": "exploratory_pilot",
+    "target_access": "transductive",
+    "model_selection": "fixed_final_epoch"
+  },
+  "provenance": {
+    "base_commit": "84e1deeade0c6e1e7993f6d0c00592326d44486e",
+    "method_reference": "https://arxiv.org/html/2201.08314v1"
+  }
+}

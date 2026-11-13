@@ -1,0 +1,5 @@
+# Minimal dependencies for the ANML pilot; use Python 3.9+.
+# Install the appropriate PyTorch CUDA build separately if GPU support is needed.
+numpy>=1.21
+scipy>=1.8
+torch>=1.10
