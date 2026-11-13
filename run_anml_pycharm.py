@@ -23,17 +23,15 @@ CONFIG = Path(__file__).resolve().parent / "configs" / "anml_pilot.json"
 if __name__ == "__main__":
     from experiments.anml.train import main
 
-    if len(sys.argv) > 1:
-        main()
-    else:
-        main([
-            "--config", str(CONFIG),
-            "--data-root", DATA_ROOT,
-            "--mode", MODE,
-            "--variants", *VARIANTS,
-            "--subjects", *[str(x) for x in SUBJECTS],
-            "--seeds", *[str(x) for x in SEEDS],
-            "--epochs", str(EPOCHS),
-            "--batch-size", str(BATCH_SIZE),
-            "--device", DEVICE,
-        ])
+    launcher_args = [
+        "--config", str(CONFIG),
+        "--data-root", DATA_ROOT,
+        "--mode", MODE,
+        "--variants", *VARIANTS,
+        "--subjects", *[str(x) for x in SUBJECTS],
+        "--seeds", *[str(x) for x in SEEDS],
+        "--epochs", str(EPOCHS),
+        "--batch-size", str(BATCH_SIZE),
+        "--device", DEVICE,
+    ]
+    main(launcher_args + sys.argv[1:])

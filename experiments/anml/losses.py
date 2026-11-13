@@ -154,7 +154,7 @@ def relation_losses(
     variant, source_similarity, target_similarity, source_labels, *,
     lower_threshold, upper_threshold, pair_threshold,
     gamma_pos=-2.0, gamma_neg=20.0, radius_pos=0.3, radius_neg=0.5,
-    margin=0.5, eps=1e-6,
+    margin=0.3, eps=1e-6,
 ):
     """Unweighted source loss, target loss, numeric diagnostics.
 
@@ -210,7 +210,7 @@ def relation_losses(
 
 def selected_relation_loss(
     variant, similarity, relations, *, gamma_pos=-2.0, gamma_neg=20.0,
-    radius_pos=0.3, radius_neg=0.5, margin=0.5, eps=1e-6,
+    radius_pos=0.3, radius_neg=0.5, margin=0.3, eps=1e-6,
 ):
     """Raw loss for post-training diagnostics on already constructed relations."""
     mode = variant.upper()

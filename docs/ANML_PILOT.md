@@ -48,7 +48,9 @@ SEEDS = [0, 1, 2]
 每次启动生成独立时间戳目录，不能把两次启动解释为续训；当前版本不支持断点续训。
 原论文 main_5.py 不作为本分支新实验的启动入口。
 
-也支持终端参数；提供参数时 launcher 顶部设置不再生效，未指定项从 JSON 读取：
+也支持终端参数；优先级为命令行参数 > launcher 顶部设置 > JSON 配置。
+命令行只覆盖明确提供的选项，例如只传 --mode train 时会保留你已填写的 DATA_ROOT。
+如要直接完全按 JSON 配置运行，可在项目根目录用 python -m experiments.anml.train。
 
 ```bash
 python run_anml_pycharm.py --mode audit --data-root "E:/your_data/feature_for_net_session1_LDS_de"
@@ -143,9 +145,11 @@ C 的虚拟半径不能替代缺失的真实邻居；空候选/无效 anchor 返
 b_gamma(a)=-log(mean(exp(-gamma*a)))/gamma；使用稳定 logsumexp 与 |neighbors|+1 归一化。
 外层取 relu(margin+b_pos-b_neg)。
 
-初始固定值：gamma_pos=-2、gamma_neg=20、radius_pos=0.3、radius_neg=0.5、margin=0.5。
+初始固定值：gamma_pos=-2、gamma_neg=20、radius_pos=0.3、radius_neg=0.5、margin=0.3。
 这些值仅是探索初值，未调优。margin 明确为本次适配设置：目标关系已经由相似度阈值排序，
-margin=0 容易使其 hinge 恒为零。仍需检查 C 的 hinge-active anchors 和敏感度日志；
+margin=0 容易使其 hinge 恒为零；同时，虚拟半径会限制小邻域可达到的最大间隔。
+以仅1正1负、正距离0/负距离1计算，当前参数的最大聚合间隔约0.362，故预先选用0.3而非0.5。
+这只是边界可达性检查，不是性能验证或参数最优性证明。仍需检查 C 的 hinge-active anchors 和敏感度日志；
 损失为零不等于关系已正确，也不说明机制有效。
 
 当前没有实现新的关系可靠性估计或先前讨论的 D/E 机制；本阶段只做 A/B/C 与诊断记录。
@@ -181,6 +185,7 @@ margin=0 容易使其 hinge 恒为零。仍需检查 C 的 hinge-active anchors 
 总损失为 CE + beta*MMD + w*CMMD + w*source_scale*R_source + (2e/E)*target_scale*R_target。
 因此 e>85 后 CMMD 无高置信目标，修正后为 0；源 CE 较高时源关系权重也是 0。
 这些是继承的调度行为，日志会显示实际生效情况，不宣称是最优设计。
+三组共享权重规则；依赖各自源 CE 的权重数值可能不同，并非每一步的数值完全相同。
 
 ## 5. 输出与机制诊断
 
@@ -205,6 +210,8 @@ summary 的标准差在每被试先平均种子后计算；只有一个被试时
 目标真标签存在评估对象中，用于最后模型保存后的评估与诊断，不进入反向传播、选 epoch 或调参。
 
 final_pair_diagnostics 在冻结模型后用与训练相同的 batch_size 分组，抽样顺序仅由 seed 决定。
+不足一个完整 batch 的尾部样本不进入关系诊断；JSON 记录请求、抽取、实际使用和丢弃的样本数。
+若可用诊断样本不足一个 batch，相关比例为 null；最终分类指标仍使用完整目标评估集。
 wrong_similarity_sensitivity_share 是错误关系占 |dL_relation/dsimilarity_ij| 总量的比例。
 它不是参数梯度归因，也不能单独证明因果机制；总敏感度为0时报告 null。
 训练期的 counts 字段为每 batch 的均值，不是全数据去重关系计数。

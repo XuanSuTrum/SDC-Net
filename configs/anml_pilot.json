@@ -40,7 +40,7 @@
     "gamma_neg": 20,
     "radius_pos": 0.3,
     "radius_neg": 0.5,
-    "margin": 0.5,
+    "margin": 0.3,
     "eps": 0.000001,
     "source_scale": 1,
     "target_scale": 1

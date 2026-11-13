@@ -286,7 +286,7 @@ def diagnose_frozen_pairs(probabilities, truth, variant, rel, thresholds, exp, s
     records = []
     for start in range(0, len(rows), exp["batch_size"]):
         indices = rows[start:start + exp["batch_size"]]
-        if len(indices) < 2:
+        if len(indices) < exp["batch_size"]:
             continue
         p = torch.as_tensor(probabilities[indices], dtype=torch.float32)
         p = F.normalize(p, p=2, dim=1, eps=1e-12)
@@ -326,6 +326,10 @@ def diagnose_frozen_pairs(probabilities, truth, variant, rel, thresholds, exp, s
     report = {
         "analysis_stage": "after_final_checkpoint", "directed_pairs": True,
         "diagnostic_batch_size": exp["batch_size"], "seed": seed + 100003,
+        "diagnostic_samples_requested": exp["diagnostic_samples"],
+        "diagnostic_samples_drawn": len(rows),
+        "diagnostic_samples_used": counts["anchors"],
+        "dropped_tail_samples": len(rows) - counts["anchors"],
         "selected_pair_precision": counts["correct"] / counts["selected"] if counts["selected"] else None,
         "selected_pair_coverage": counts["selected"] / counts["possible"] if counts["possible"] else None,
         "wrong_similarity_sensitivity_share": (
